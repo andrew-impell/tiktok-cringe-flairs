@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('ggplot')
 
-POST_LIMIT = 10000000
+POST_LIMIT = 100000000
 
 api = PushshiftAPI()
 
@@ -63,11 +63,22 @@ df.sort_index(inplace=True)
 x_ticks = list(df.index.values)
 x_ticks = x_ticks[::25]
 
+df['AllCringe'] = df['Cringe'] + df['Humor/Cringe']
+
+plt.plot(df.index, df['AllCringe'], labels=['Cringe + Cringe-like'])
+plt.legend(loc='upper right')
+plt.title('TikTokCringe Cringe Flair')
+plt.xticks(ticks=x_ticks, rotation=(45))
+plt.xlabel('Date')
+plt.ylabel('Percent of posts')
+plt.show()
+
 col_list = ['Humor', 'Humor/Cringe', 'Cringe', 'Wholesome',
             'Cool', 'Duet Troll', 'Wholesome/Humor']
 
 plt.stackplot(df.index, df['Humor'], df['Humor/Cringe'],
-              df['Cringe'], df['Wholesome'], df['Cool'], df['Duet Troll'], df['Wholesome/Humor'],
+              df['Cringe'], df['Wholesome'], df['Cool'],
+              df['Duet Troll'], df['Wholesome/Humor'],
               labels=col_list)
 plt.legend(loc='upper right')
 plt.title('TikTokCringe flairs over time')
