@@ -59,14 +59,16 @@ for date in date_set:
 df = pd.DataFrame(final_day_list, index=date_set)
 df.sort_index(inplace=True)
 
-
 # Plot the data frame
 x_ticks = list(df.index.values)
 x_ticks = x_ticks[::25]
 
+col_list = ['Humor', 'Humor/Cringe', 'Cringe', 'Wholesome',
+            'Cool', 'Duet Troll', 'Wholesome/Humor']
+
 plt.stackplot(df.index, df['Humor'], df['Humor/Cringe'],
-              df['Cringe'], df['Wholesome'],
-              labels=['Humor', 'Humor/Cringe', 'Cringe', 'Wholesome'])
+              df['Cringe'], df['Wholesome'], df['Cool'], df['Duet Troll'], df['Wholesome/Humor'],
+              labels=col_list)
 plt.legend(loc='upper right')
 plt.title('TikTokCringe flairs over time')
 plt.xticks(ticks=x_ticks, rotation=(45))
