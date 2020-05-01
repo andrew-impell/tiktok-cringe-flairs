@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('ggplot')
 
-POST_LIMIT = 100000000
+POST_LIMIT = 1000000000
 
 api = PushshiftAPI()
 
@@ -65,8 +65,16 @@ x_ticks = x_ticks[::25]
 
 df['AllCringe'] = df['Cringe'] + df['Humor/Cringe']
 
-plt.plot(df.index, df['AllCringe'], labels=['Cringe + Cringe-like'])
-plt.legend(loc='upper right')
+print(df.columns)
+
+df_noncringe = df.drop(['AllCringe', 'Cringe', 'Humor/Cringe'], axis=1)
+df_noncringe['Sum'] = df_noncringe.sum(axis=1)
+
+print(df_noncringe['Sum'])
+
+plt.plot(df.index, df['AllCringe'], label='Cringe')
+plt.plot(df_noncringe.index, df_noncringe['Sum'], label='Non-Cringe')
+plt.legend()
 plt.title('TikTokCringe Cringe Flair')
 plt.xticks(ticks=x_ticks, rotation=(45))
 plt.xlabel('Date')
