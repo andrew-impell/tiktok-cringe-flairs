@@ -13,12 +13,16 @@ api = PushshiftAPI()
 
 start_epoch = int(datetime(2019, 4, 20).timestamp())
 
+# grab data from api
+
 pushresp = list(api.search_submissions(after=start_epoch,
                                        subreddit='TikTokCringe',
                                        filter=['link_flair_text'],
                                        limit=POST_LIMIT))
 
 submission_list = []
+
+# organize data
 
 for t in pushresp:
     try:
@@ -37,6 +41,8 @@ for sub in submission_list:
 
 date_set = list(set(all_dates))
 
+# Create a df with flairs as columns and index of dates; vals are percentages
+
 final_day_list = []
 
 for date in date_set:
@@ -51,11 +57,11 @@ for date in date_set:
 
 
 df = pd.DataFrame(final_day_list, index=date_set)
-
 df.sort_index(inplace=True)
 
-x_ticks = list(df.index.values)
 
+# Plot the data frame
+x_ticks = list(df.index.values)
 x_ticks = x_ticks[::25]
 
 plt.stackplot(df.index, df['Humor'], df['Humor/Cringe'],
